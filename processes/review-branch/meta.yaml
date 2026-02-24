@@ -1,0 +1,19 @@
+id: review-branch
+kind: process
+owner: hongyunyan
+description: Remote branch review workflow that aligns against the latest upstream base in an isolated worktree before deep analysis.
+priority: 4
+cost: medium
+mode: primary
+default: false
+output_contract:
+  - review.md
+  - review.json
+activation:
+  required_tags: []
+  any_tags:
+    - lang:go
+    - lang:cpp
+    - lang:rust
+    - lang:sql
+  min_files: 0

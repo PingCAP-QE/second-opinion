@@ -19,6 +19,12 @@ FIXTURE_SENTINELS = {
     "fragments/evil.md": ["TEST-FRAGMENT-SENTINEL"],
 }
 REAL_ASSETS = [
+    "experts/hongyunyan/meta.yaml",
+    "experts/hongyunyan/criteria.md",
+    "processes/review-branch/meta.yaml",
+    "processes/review-branch/criteria.md",
+    "processes/review-branch/prepare_review.sh",
+    "fragments/guided-reading-path.md",
     "experts/wjhuang2016/meta.yaml",
     "experts/wjhuang2016/criteria.md",
     "fragments/re-deep-review-checklist.md",
