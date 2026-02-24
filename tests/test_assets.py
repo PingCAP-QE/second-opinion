@@ -18,6 +18,11 @@ FIXTURE_SENTINELS = {
     "policies/evil.yaml": ["TEST-POLICY-SENTINEL"],
     "fragments/evil.md": ["TEST-FRAGMENT-SENTINEL"],
 }
+REAL_ASSETS = [
+    "experts/wjhuang2016/meta.yaml",
+    "experts/wjhuang2016/criteria.md",
+    "fragments/re-deep-review-checklist.md",
+]
 
 
 class AssetTests(unittest.TestCase):
@@ -40,3 +45,7 @@ class AssetTests(unittest.TestCase):
             content = (fixture_root / rel_path).read_text(encoding="utf-8")
             for sentinel in sentinels:
                 self.assertIn(sentinel, content, f"Missing sentinel {sentinel} in {rel_path}")
+
+    def test_real_assets_exist(self):
+        for rel_path in REAL_ASSETS:
+            self.assertTrue((ROOT / rel_path).is_file(), f"Missing real asset: {rel_path}")
