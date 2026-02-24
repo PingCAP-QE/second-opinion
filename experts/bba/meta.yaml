@@ -1,0 +1,25 @@
+id: bba
+kind: person
+owner: bba
+description: Reviewer focused on deep, evidence-first code reviews with explicit blast-radius mapping and mandatory second-pass verification for uncertain or high-impact findings.
+preferred_tags:
+  - lang:go
+  - lang:cpp
+  - lang:rust
+  - lang:sql
+  - risk:correctness
+  - risk:concurrency
+  - risk:security
+  - risk:compat
+  - risk:ops
+  - theme:error-handling
+  - theme:testing
+  - theme:observability
+excluded_tags: []
+review_components:
+  - component:tidb/ddl
+  - component:tidb/execution
+  - component:tidb/sql-infra
+  - component:tidb/txn
+participation:
+  max_rules: 7
