@@ -1,6 +1,6 @@
-# BBA expert criteria
+# WJHUANG2016 expert criteria
 
-- rule_id: BBA-RE-001
+- rule_id: WJHUANG2016-RE-001
   description: |
     Start with explicit scope mapping before diving into details. Enumerate
     change types (new code paths, deletions, refactors, behavior/default
@@ -14,7 +14,7 @@
     - theme:api
   rationale: Accurate scope definition prevents blind spots and anchors the rest of the review.
 
-- rule_id: BBA-RE-002
+- rule_id: WJHUANG2016-RE-002
   description: |
     For each core change, perform blast-radius tracing from entry points to
     internal side effects: interface contracts, call sites/dependents, runtime
@@ -26,7 +26,7 @@
     - theme:api
   rationale: Most regressions are caused by indirect effects rather than edited lines.
 
-- rule_id: BBA-RE-003
+- rule_id: WJHUANG2016-RE-003
   description: |
     Keep findings evidence-backed. Every non-trivial conclusion must cite at
     least one concrete anchor (code path, test output, runtime log, or API
@@ -38,7 +38,7 @@
     - theme:error-handling
   rationale: Evidence-first review reduces noise and makes fixes actionable.
 
-- rule_id: BBA-RE-004
+- rule_id: WJHUANG2016-RE-004
   description: |
     Validate core review dimensions and mark each as confirmed or N/A:
     correctness, security, data consistency/concurrency, performance,
@@ -54,7 +54,7 @@
     - scenario:rollback
   rationale: A fixed checklist limits omission risk on complex changes.
 
-- rule_id: BBA-RE-005
+- rule_id: WJHUANG2016-RE-005
   description: |
     Mandatory second-pass verification is required when either condition holds:
     (a) finding confidence is medium/low, or (b) severity is high/critical.
@@ -68,7 +68,7 @@
     - theme:testing
   rationale: Independent confirmation sharply lowers false positives and missed blockers.
 
-- rule_id: BBA-RE-006
+- rule_id: WJHUANG2016-RE-006
   description: |
     For data/state mutations, verify ownership and consistency invariants:
     atomic boundaries, partial-failure handling, retries/idempotence, and
@@ -81,7 +81,7 @@
     - scenario:rollback
   rationale: Data inconsistency issues are high impact and often expensive to recover.
 
-- rule_id: BBA-RE-007
+- rule_id: WJHUANG2016-RE-007
   description: |
     Report findings in a structured format ordered by severity then confidence.
     Each item should include: what is wrong, evidence, impact, minimum fix

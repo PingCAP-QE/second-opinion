@@ -1,6 +1,6 @@
-id: bba
+id: wjhuang2016
 kind: person
-owner: bba
+owner: wjhuang2016
 description: Reviewer focused on deep, evidence-first code reviews with explicit blast-radius mapping and mandatory second-pass verification for uncertain or high-impact findings.
 preferred_tags:
   - lang:go
