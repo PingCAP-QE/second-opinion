@@ -5,10 +5,11 @@ Input:
 - diff
 
 Output:
-- review.md
-- review.json
+- second_opinion.md
+- second_opinion.json
+- Write both files to the repository root on disk.
 
-Each finding in review.json must include:
+Each finding in second_opinion.json must include:
 - file
 - lines
 - source (type + id)
@@ -17,7 +18,11 @@ Each finding in review.json must include:
 - message
 
 Rules:
+- Infer review-output language from the user prompt that triggers second opinion.
+- Use the inferred language directly; do not ask a separate language-preference question
+  unless the user asks to override.
 - Follow compiled_prompt instructions exactly.
+- Do not only print findings in chat; file outputs are required.
 - Attribute findings to the originating source (rule, process, or policy).
 - If docs/agents/*/*.md files exist, use them for domain knowledge; otherwise ignore.
 - If the user provided explicit focus hints, treat them as hard constraints and keep findings in-scope only.

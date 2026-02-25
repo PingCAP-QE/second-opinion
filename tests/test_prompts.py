@@ -16,11 +16,19 @@ PROMPTS = {
             "provenance",
             "selection_rationale",
             "tests/fixtures",
+            "persist this JSON as `second_opinion_meta.json`",
         ],
     },
     "reviewer": {
         "path": ROOT / "prompts" / "reviewer.prompt",
-        "required": ["review.md", "review.json", "compiled_prompt", "source"],
+        "required": [
+            "second_opinion.md",
+            "second_opinion.json",
+            "compiled_prompt",
+            "source",
+            "Do not only print findings in chat",
+            "Write both files to the repository root on disk",
+        ],
     },
 }
 

@@ -7,8 +7,8 @@ cost: light
 mode: stackable
 default: false
 output_contract:
-  - review.md
-  - review.json
+  - second_opinion.md
+  - second_opinion.json
 activation:
   required_tags:
     - theme:testing

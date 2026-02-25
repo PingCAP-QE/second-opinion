@@ -18,18 +18,34 @@ class CodexE2ETest(unittest.TestCase):
 
         prompt = (
             "Give second opinion on this change. "
-            "Run the Second Opinion review workflow and write review.md and review.json in the repo root."
+            "Run the Second Opinion review workflow and write second_opinion.md and second_opinion.json in the repo root."
         )
         codex_exec(codex_cmd, repo, codex_home, prompt, auth_key)
 
-        review_md = repo / "review.md"
-        review_json = repo / "review.json"
-        self.assertTrue(review_md.is_file(), "review.md not created")
-        self.assertTrue(review_json.is_file(), "review.json not created")
+        review_md = repo / "second_opinion.md"
+        review_json = repo / "second_opinion.json"
+        self.assertTrue(review_md.is_file(), "second_opinion.md not created")
+        self.assertTrue(review_json.is_file(), "second_opinion.json not created")
 
         with review_json.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
-        self.assertIn("findings", data, "review.json missing findings")
+        self.assertIn("findings", data, "second_opinion.json missing findings")
+        self.assertIsInstance(data["findings"], list, "findings must be a list")
+
+    def test_codex_minimum_prompt_still_writes_review_outputs(self):
+        codex_cmd, codex_home, repo, _diff_path, auth_key = self._prepare_workspace()
+
+        prompt = "Give second opinion on this change."
+        codex_exec(codex_cmd, repo, codex_home, prompt, auth_key)
+
+        review_md = repo / "second_opinion.md"
+        review_json = repo / "second_opinion.json"
+        self.assertTrue(review_md.is_file(), "second_opinion.md not created")
+        self.assertTrue(review_json.is_file(), "second_opinion.json not created")
+
+        with review_json.open("r", encoding="utf-8") as handle:
+            data = json.load(handle)
+        self.assertIn("findings", data, "second_opinion.json missing findings")
         self.assertIsInstance(data["findings"], list, "findings must be a list")
 
     def test_codex_tagger_stage(self):
@@ -67,13 +83,13 @@ class CodexE2ETest(unittest.TestCase):
         prompt = (
             "Give second opinion on this change. Run the compiler stage only. "
             "Read prompts/compiler.prompt. Use tagger.json for derived tags, experts/* for rule metadata and "
-            "criteria, processes/* for workflow metadata and criteria, and write compiler.json in the repo root. "
+            "criteria, processes/* for workflow metadata and criteria, and write second_opinion_meta.json in the repo root. "
             f"The diff is at {diff_path.name}."
         )
         codex_exec(codex_cmd, repo, codex_home, prompt, auth_key)
 
-        compiler_json = repo / "compiler.json"
-        self.assertTrue(compiler_json.is_file(), "compiler.json not created")
+        compiler_json = repo / "second_opinion_meta.json"
+        self.assertTrue(compiler_json.is_file(), "second_opinion_meta.json not created")
         with compiler_json.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
         for field in [
@@ -85,7 +101,7 @@ class CodexE2ETest(unittest.TestCase):
             "compiled_prompt",
             "provenance",
         ]:
-            self.assertIn(field, data, f"compiler.json missing {field}")
+            self.assertIn(field, data, f"second_opinion_meta.json missing {field}")
 
     def test_codex_reviewer_stage(self):
         codex_cmd, codex_home, repo, diff_path, auth_key = self._prepare_workspace()
@@ -104,26 +120,26 @@ class CodexE2ETest(unittest.TestCase):
                 "budget": "medium",
             },
             "compiled_prompt": (
-                "You are the review stage. Use the diff to produce review.md and review.json. "
-                "review.json must include a findings array."
+                "You are the review stage. Use the diff to produce second_opinion.md and second_opinion.json. "
+                "second_opinion.json must include a findings array."
             ),
             "provenance": [{"rule_id": "EXAMPLE-RULE-001", "expert": "example-expert"}],
         }
-        compiler_json = repo / "compiler.json"
+        compiler_json = repo / "second_opinion_meta.json"
         compiler_json.write_text(json.dumps(compiler_payload, indent=2), encoding="utf-8")
 
         prompt = (
             "Give second opinion on this change. Run the reviewer stage only. "
-            "Read prompts/reviewer.prompt. Use compiler.json for compiled_prompt and diff at "
-            f"{diff_path.name}. Write review.md and review.json in the repo root."
+            "Read prompts/reviewer.prompt. Use second_opinion_meta.json for compiled_prompt and diff at "
+            f"{diff_path.name}. Write second_opinion.md and second_opinion.json in the repo root."
         )
         codex_exec(codex_cmd, repo, codex_home, prompt, auth_key)
 
-        review_md = repo / "review.md"
-        review_json = repo / "review.json"
-        self.assertTrue(review_md.is_file(), "review.md not created")
-        self.assertTrue(review_json.is_file(), "review.json not created")
+        review_md = repo / "second_opinion.md"
+        review_json = repo / "second_opinion.json"
+        self.assertTrue(review_md.is_file(), "second_opinion.md not created")
+        self.assertTrue(review_json.is_file(), "second_opinion.json not created")
         with review_json.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
-        self.assertIn("findings", data, "review.json missing findings")
+        self.assertIn("findings", data, "second_opinion.json missing findings")
         self.assertIsInstance(data["findings"], list, "findings must be a list")

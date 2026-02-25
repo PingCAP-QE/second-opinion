@@ -2,8 +2,7 @@
 
 ## 0) Language
 
-Ask the user which language they want for the review output, then use it for `review.md`.
-All repository assets remain in English.
+Apply shared language contract from `fragments/review-language-contract.md`.
 
 ## 1) Define scope for this round
 
@@ -42,8 +41,11 @@ Optional (non-blocking unless user requests):
 ## 4) Produce review results
 
 Write:
-- `review.md`: a human-readable summary + prioritized list of issues.
-- `review.json`: findings following the repo schema.
+- `second_opinion.md`: a human-readable summary + prioritized list of issues.
+- `second_opinion.json`: findings following the repo schema.
+
+Write these files in the repository root. Printed chat findings do not satisfy
+this output contract.
 
 For each issue, include:
 - what is wrong (one sentence),
@@ -53,5 +55,5 @@ For each issue, include:
 
 ## 5) Stop and wait
 
-After producing `review.md` and `review.json`, stop and wait for explicit user instruction.
+After producing `second_opinion.md` and `second_opinion.json`, stop and wait for explicit user instruction.
 Do not perform any GitHub operation with side effects unless explicitly instructed.

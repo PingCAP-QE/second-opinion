@@ -21,13 +21,23 @@ Restart Codex after installation to load the skill.
 
 Use `second-opinion` to review a diff, PR, or commit range.
 
-Minimum prompt:
+Minimum prompts:
 
 `Give second opinion on this change.`
+
+`请给这个改动 second opinion。`
 
 Verbose prompt (extra requirements):
 
 `Give second opinion on this change. Use English output, prioritize pkg/expression and tests, focus on correctness plus MySQL date/time semantics and nullability, and include verification commands for high/critical findings.`
+
+Workflow contract (applies even with the minimum prompt):
+
+- Infer review-output language from the prompt that triggers second opinion,
+  and use that language directly without asking a separate question.
+- Run tagger → compiler → reviewer.
+- Write `second_opinion_meta.json`, `second_opinion.md`, and `second_opinion.json` in the repository root.
+- Chat output is supplementary and does not replace file outputs.
 
 ## Repository layout
 

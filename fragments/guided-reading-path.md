@@ -1,6 +1,6 @@
 # Guided reading path for review output
 
-When producing `review.md`, include a short "guided reading path" section:
+When producing `second_opinion.md`, include a short "guided reading path" section:
 
 - Step 1..N with:
   - start location (`file` + `function`/`symbol`)

@@ -1,10 +1,13 @@
-# Output contract: review.md and review.json
+# Output contract: second_opinion.md and second_opinion.json
 
 Produce two outputs:
-- `review.md`: a readable summary for humans.
-- `review.json`: a machine-readable findings list.
+- `second_opinion.md`: a readable summary for humans.
+- `second_opinion.json`: a machine-readable findings list.
 
-`review.json` must be a JSON object with a single top-level field:
+Write both files in the repository root. Printed chat findings do not satisfy
+this output contract.
+
+`second_opinion.json` must be a JSON object with a single top-level field:
 - `findings`: an array of findings.
 
 Each finding MUST include:

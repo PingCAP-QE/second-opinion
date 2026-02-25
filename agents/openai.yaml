@@ -1,4 +1,4 @@
 interface:
   display_name: "Second Opinion"
   short_description: "Consolidated PingCAP expert review skill"
-  default_prompt: "Give a second opinion on this change and run the review workflow to produce review.md and review.json."
+  default_prompt: "Give a second opinion on this change. Infer review-output language from my prompt, run the review workflow, and write second_opinion_meta.json, second_opinion.md, and second_opinion.json in the repo root."
