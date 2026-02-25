@@ -7,6 +7,28 @@ reviewer) and a controlled taxonomy to produce attributable review outputs.
 This repo includes sample foo assets in each contributor asset directory to
 show formatting and organization; exclude them from real reviews.
 
+## Install
+
+From the Codex CLI prompt, run:
+
+```bash
+$skill-installer https://github.com/PingCAP-QE/second-opinion
+```
+
+Restart Codex after installation to load the skill.
+
+## Usage
+
+Use `second-opinion` to review a diff, PR, or commit range.
+
+Minimum prompt:
+
+`Give second opinion on this change.`
+
+Verbose prompt (extra requirements):
+
+`Give second opinion on this change. Use English output, prioritize pkg/expression and tests, focus on correctness plus MySQL date/time semantics and nullability, and include verification commands for high/critical findings.`
+
 ## Repository layout
 
 - taxonomy.md: Controlled tag vocabulary used by all prompts.
