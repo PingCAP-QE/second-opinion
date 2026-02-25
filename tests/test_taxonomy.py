@@ -12,6 +12,7 @@ EXPECTED_TAGS = [
     "component:tidb/ddl",
     "component:tidb/txn",
     "component:tidb/statistics",
+    "component:tidb/bindinfo",
     "component:tidb/dumpling",
     "component:tidb/planner",
     "component:tidb/execution",

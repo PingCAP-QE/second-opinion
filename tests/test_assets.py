@@ -21,6 +21,10 @@ FIXTURE_SENTINELS = {
 REAL_ASSETS = [
     "experts/hongyunyan/meta.yaml",
     "experts/hongyunyan/criteria.md",
+    "experts/qw4990/meta.yaml",
+    "experts/qw4990/criteria.md",
+    "fragments/tidb-question-driven-feedback.md",
+    "fragments/tidb-review-conventions.md",
     "processes/review-branch/meta.yaml",
     "processes/review-branch/criteria.md",
     "processes/review-branch/prepare_review.sh",
