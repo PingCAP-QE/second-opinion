@@ -1,6 +1,8 @@
 # Remote branch review workflow (upstream-aligned)
 
-## 0) Inputs
+## 0) Language and Inputs
+
+Apply shared language contract from `fragments/review-language-contract.md`.
 
 Accept either:
 - `<pr_url>`
@@ -43,13 +45,16 @@ Conditionally check:
 ## 4) Output contract
 
 Produce both:
-- `review.md`: summary + guided reading path + prioritized findings
-- `review.json`: schema-compliant findings with source attribution and severity
+- `second_opinion.md`: summary + guided reading path + prioritized findings
+- `second_opinion.json`: schema-compliant findings with source attribution and severity
+
+Write these files in the repository root. Printed chat findings do not satisfy
+this output contract.
 
 Testing note:
 - CI is authoritative by default; only run local tests when explicitly requested.
 
 ## 5) Stop and wait
 
-After writing `review.md` and `review.json`, stop and wait for explicit user instruction.
+After writing `second_opinion.md` and `second_opinion.json`, stop and wait for explicit user instruction.
 Never perform GitHub operations with side effects unless explicitly requested.

@@ -8,4 +8,4 @@
     Workflow:
     1) Summarize the change at a high level.
     2) List any risks or open questions.
-    3) Ensure review.md and review.json are produced.
+    3) Ensure second_opinion.md and second_opinion.json are produced.

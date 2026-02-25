@@ -29,9 +29,9 @@ Do NOT use production assets under experts/, processes/, policies/, fragments/.
 
 ## Output
 
-- compiler.json
-- review.md
-- review.json
+- second_opinion_meta.json
+- second_opinion.md
+- second_opinion.json
 
 ## Verification Requirements
 
@@ -39,5 +39,5 @@ Do NOT use production assets under experts/, processes/, policies/, fragments/.
   - TEST-EXPERT-SENTINEL
   - TEST-POLICY-SENTINEL
   - TEST-FRAGMENT-SENTINEL
-- Ensure review.md includes TEST-PROCESS-SENTINEL.
-- review.json must follow the repository schema (source type + id required).
+- Ensure second_opinion.md includes TEST-PROCESS-SENTINEL.
+- second_opinion.json must follow the repository schema (source type + id required).

@@ -72,6 +72,7 @@ Rules:
 - Do not rewrite rule text.
 - Always emit selection_rationale (use empty arrays or nulls when needed).
 - Do not emit extra fields or commentary.
+- In full workflow runs, persist this JSON as `second_opinion_meta.json` in the repository root before review.
 - If the user provided explicit review hints, honor them:
   - Depth hints (quick/light/standard/deep/heavy/thorough) set selection_rationale.budget.
   - Focus hints (component/risk/theme/lang/scenario or "security-only") are hard constraints:

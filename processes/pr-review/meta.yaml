@@ -7,8 +7,8 @@ cost: light
 mode: primary
 default: true
 output_contract:
-  - review.md
-  - review.json
+  - second_opinion.md
+  - second_opinion.json
 activation:
   required_tags: []
   any_tags:

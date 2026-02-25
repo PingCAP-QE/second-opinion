@@ -53,12 +53,12 @@ class CodexIntegrationExternalRepoTest(unittest.TestCase):
         prompt = (
             "Give second opinion on this change. Run the compiler stage only. "
             "Read prompts/compiler.prompt. Use the diff at external.diff. Use experts/*, processes/*, "
-            "policies/*, and fragments/* for metadata and criteria. Write compiler.json in the repo root."
+            "policies/*, and fragments/* for metadata and criteria. Write second_opinion_meta.json in the repo root."
         )
         codex_exec(codex_cmd, workspace, codex_home, prompt, auth_key)
 
-        compiler_json = workspace / "compiler.json"
-        self.assertTrue(compiler_json.is_file(), "compiler.json not created")
+        compiler_json = workspace / "second_opinion_meta.json"
+        self.assertTrue(compiler_json.is_file(), "second_opinion_meta.json not created")
         with compiler_json.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
         for field in [
@@ -70,4 +70,4 @@ class CodexIntegrationExternalRepoTest(unittest.TestCase):
             "compiled_prompt",
             "provenance",
         ]:
-            self.assertIn(field, data, f"compiler.json missing {field}")
+            self.assertIn(field, data, f"second_opinion_meta.json missing {field}")

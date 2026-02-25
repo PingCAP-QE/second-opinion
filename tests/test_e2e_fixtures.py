@@ -20,7 +20,7 @@ class CodexE2EFixtureTest(unittest.TestCase):
         prompt = (
             "Use the test-second-opinion skill. "
             "Run the compiler and reviewer stages using tests/fixtures assets only. "
-            "Write compiler.json, review.md, and review.json in the repo root. "
+            "Write second_opinion_meta.json, second_opinion.md, and second_opinion.json in the repo root. "
             "The diff is at fixture.diff."
         )
         fixture_diff = repo / "fixture.diff"
@@ -28,8 +28,8 @@ class CodexE2EFixtureTest(unittest.TestCase):
         fixture_diff.write_text(fixture_source.read_text(encoding="utf-8"), encoding="utf-8")
         codex_exec(codex_cmd, repo, codex_home, prompt, auth_key)
 
-        compiler_json = repo / "compiler.json"
-        self.assertTrue(compiler_json.is_file(), "compiler.json not created")
+        compiler_json = repo / "second_opinion_meta.json"
+        self.assertTrue(compiler_json.is_file(), "second_opinion_meta.json not created")
         with compiler_json.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
         self.assertEqual(["evil"], data.get("selected_experts", []))
@@ -46,12 +46,12 @@ class CodexE2EFixtureTest(unittest.TestCase):
         primary = rationale.get("primary_process") or {}
         self.assertEqual("evil-process", primary.get("process"))
 
-        review_md = repo / "review.md"
-        self.assertTrue(review_md.is_file(), "review.md not created")
+        review_md = repo / "second_opinion.md"
+        self.assertTrue(review_md.is_file(), "second_opinion.md not created")
         review_text = review_md.read_text(encoding="utf-8")
         self.assertIn("TEST-PROCESS-SENTINEL", review_text)
-        review_json = repo / "review.json"
-        self.assertTrue(review_json.is_file(), "review.json not created")
+        review_json = repo / "second_opinion.json"
+        self.assertTrue(review_json.is_file(), "second_opinion.json not created")
         review_data = json.loads(review_json.read_text(encoding="utf-8"))
         findings = review_data.get("findings", [])
         self.assertEqual(2, len(findings))

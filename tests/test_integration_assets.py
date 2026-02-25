@@ -32,13 +32,13 @@ class CodexIntegrationAssetsTest(unittest.TestCase):
             "Read prompts/compiler.prompt. Use tagger.json for derived tags, experts/* for rule metadata and "
             "criteria, processes/* for workflow metadata and criteria, policies/* for policies, and fragments/* "
             "for shared fragments. Ensure selection_rationale is populated even when no assets match. "
-            "Write compiler.json in the repo root. "
+            "Write second_opinion_meta.json in the repo root. "
             f"The diff is at {diff_path.name}."
         )
         codex_exec(codex_cmd, repo, codex_home, prompt, auth_key)
 
-        compiler_json = repo / "compiler.json"
-        self.assertTrue(compiler_json.is_file(), "compiler.json not created")
+        compiler_json = repo / "second_opinion_meta.json"
+        self.assertTrue(compiler_json.is_file(), "second_opinion_meta.json not created")
         with compiler_json.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
         for field in [
@@ -50,4 +50,4 @@ class CodexIntegrationAssetsTest(unittest.TestCase):
             "compiled_prompt",
             "provenance",
         ]:
-            self.assertIn(field, data, f"compiler.json missing {field}")
+            self.assertIn(field, data, f"second_opinion_meta.json missing {field}")
