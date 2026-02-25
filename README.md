@@ -1,5 +1,5 @@
 # Second Opinion
-
+# 
 Second Opinion is a contributor-driven repository for building a structured
 code review skill. The system uses a prompt pipeline (tagger → compiler →
 reviewer) and a controlled taxonomy to produce attributable review outputs.
