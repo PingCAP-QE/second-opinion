@@ -1,0 +1,18 @@
+id: qw4990
+kind: person
+owner: qw4990
+description: Reviewer focused on TiDB planner, bindinfo, and statistics—question-driven feedback, consistency checks, and test quality. Derived from 567+ real PR review comments.
+preferred_tags:
+  - lang:go
+  - component:tidb/planner
+  - component:tidb/bindinfo
+  - component:tidb/statistics
+excluded_tags: []
+review_components:
+  - component:tidb/planner
+  - component:tidb/bindinfo
+  - component:tidb/statistics
+  - component:tidb/parser
+  - component:tidb/sql-infra
+participation:
+  max_rules: 10

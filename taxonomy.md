@@ -13,6 +13,7 @@ Controlled vocabulary for tags.
 - component:tidb/txn
 - component:tidb/statistics
 - component:tidb/dumpling
+- component:tidb/bindinfo
 - component:tidb/planner
 - component:tidb/execution
 - component:tidb/sql-infra
