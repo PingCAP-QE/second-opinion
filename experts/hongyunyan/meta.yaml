@@ -1,0 +1,21 @@
+id: hongyunyan
+kind: person
+owner: hongyunyan
+description: Reviewer focused on upstream-aligned branch reviews, deep call-chain reading, and CI-first risk evaluation.
+preferred_tags:
+  - lang:go
+  - lang:cpp
+  - lang:rust
+  - lang:sql
+  - risk:correctness
+  - risk:concurrency
+  - risk:perf
+  - risk:compat
+  - theme:testing
+excluded_tags: []
+review_components:
+  - component:tidb/sql-infra
+  - component:tidb/execution
+  - component:tidb/txn
+participation:
+  max_rules: 6
