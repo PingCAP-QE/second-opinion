@@ -21,6 +21,8 @@ FIXTURE_SENTINELS = {
 REAL_ASSETS = [
     "experts/hongyunyan/meta.yaml",
     "experts/hongyunyan/criteria.md",
+    "experts/jaysonhuang/meta.yaml",
+    "experts/jaysonhuang/criteria.md",
     "experts/qw4990/meta.yaml",
     "experts/qw4990/criteria.md",
     "fragments/tidb-question-driven-feedback.md",
