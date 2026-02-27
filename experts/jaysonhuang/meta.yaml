@@ -1,0 +1,27 @@
+id: jaysonhuang
+kind: person
+owner: JaySon-Huang
+description: Reviewer focused on storage/metadata correctness, protocol compatibility, performance-sensitive data paths, and evidence-first review decisions. Criteria are merged and deduplicated from tiflash/tidb/tici review practice.
+preferred_tags:
+  - lang:go
+  - lang:cpp
+  - lang:rust
+  - lang:sql
+  - component:tiflash/storage
+  - component:tiflash/compute
+  - component:tidb/ddl
+  - component:tidb/sql-infra
+  - risk:correctness
+  - risk:concurrency
+  - risk:compat
+  - risk:perf
+  - theme:testing
+excluded_tags: []
+review_components:
+  - component:tiflash/storage
+  - component:tiflash/compute
+  - component:tiflash/replica
+  - component:tidb/ddl
+  - component:tidb/sql-infra
+participation:
+  max_rules: 9
