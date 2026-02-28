@@ -24,9 +24,7 @@ review_components:
   - component:tidb/lightning
   - component:tidb/import-into
   - component:tidb/dxf
+  - component:tidb/ddl
   - component:tidb/global-sort
-  - component:tidb/execution
-  - component:tidb/sql-infra
-  - component:tidb/txn
 participation:
   max_rules: 7
