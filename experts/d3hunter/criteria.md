@@ -7,7 +7,6 @@
     versioned path instead and prove retry/failover behavior remains valid.
   tags:
     - risk:correctness
-    - component:tidb/txn
   rationale: Invariant drift in versioned state machines causes hard-to-recover correctness bugs.
 
 - rule_id: D3HUNTER-PR-002
@@ -49,7 +48,6 @@
   tags:
     - risk:perf
     - risk:correctness
-    - component:tidb/execution
   rationale: Small structural overheads can amplify into cluster-level performance regressions.
 
 - rule_id: D3HUNTER-PR-006
