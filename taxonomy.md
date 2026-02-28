@@ -18,6 +18,10 @@ Controlled vocabulary for tags.
 - component:tidb/execution
 - component:tidb/sql-infra
 - component:tidb/expression
+- component:tidb/lightning
+- component:tidb/import-into
+- component:tidb/dxf
+- component:tidb/global-sort
 - component:tikv/raftstore
 - component:tikv/storage
 - component:tikv/coprocessor

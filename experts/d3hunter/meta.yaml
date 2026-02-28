@@ -1,0 +1,26 @@
+id: d3hunter
+kind: person
+owner: D3Hunter
+description: Reviewer focused on TiDB PR correctness-first feedback, failure semantics, concurrency lifecycle safety, performance impact checks, and test rigor.
+preferred_tags:
+  - lang:go
+  - risk:correctness
+  - risk:concurrency
+  - risk:perf
+  - risk:compat
+  - risk:ops
+  - theme:api
+  - theme:error-handling
+  - theme:testing
+  - theme:observability
+excluded_tags: []
+review_components:
+  - component:tidb/lightning
+  - component:tidb/import-into
+  - component:tidb/dxf
+  - component:tidb/global-sort
+  - component:tidb/execution
+  - component:tidb/sql-infra
+  - component:tidb/txn
+participation:
+  max_rules: 7

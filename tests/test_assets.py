@@ -19,6 +19,8 @@ FIXTURE_SENTINELS = {
     "fragments/evil.md": ["TEST-FRAGMENT-SENTINEL"],
 }
 REAL_ASSETS = [
+    "experts/d3hunter/meta.yaml",
+    "experts/d3hunter/criteria.md",
     "experts/hongyunyan/meta.yaml",
     "experts/hongyunyan/criteria.md",
     "experts/qw4990/meta.yaml",
