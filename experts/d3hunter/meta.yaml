@@ -15,6 +15,12 @@ preferred_tags:
   - theme:observability
 excluded_tags: []
 review_components:
+  - component:tidb/meta
+  - component:tidb/owner
+  - component:tidb/parser
+  - component:tidb/bootstrap
+  - component:tidb/domain
+  - component:tidb/dumpling
   - component:tidb/lightning
   - component:tidb/import-into
   - component:tidb/dxf

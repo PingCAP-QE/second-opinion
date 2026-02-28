@@ -18,6 +18,11 @@ Controlled vocabulary for tags.
 - component:tidb/execution
 - component:tidb/sql-infra
 - component:tidb/expression
+- component:tidb/meta
+- component:tidb/owner
+- component:tidb/parser
+- component:tidb/bootstrap
+- component:tidb/domain
 - component:tidb/lightning
 - component:tidb/import-into
 - component:tidb/dxf
