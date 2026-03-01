@@ -23,6 +23,7 @@ EXPECTED_TAGS = [
     "component:tidb/parser",
     "component:tidb/bootstrap",
     "component:tidb/domain",
+    "component:tidb/disttask",
     "component:tidb/lightning",
     "component:tidb/import-into",
     "component:tidb/dxf",
