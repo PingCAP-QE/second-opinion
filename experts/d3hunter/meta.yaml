@@ -1,0 +1,31 @@
+id: d3hunter
+kind: person
+owner: D3Hunter
+description: Reviewer focused on behavior-changing TiDB PRs with correctness-first feedback, compatibility safety, failure semantics, concurrency lifecycle checks, and test rigor.
+preferred_tags:
+  - lang:go
+  - risk:correctness
+  - risk:concurrency
+  - risk:perf
+  - risk:compat
+  - risk:ops
+  - theme:api
+  - theme:error-handling
+  - theme:testing
+  - theme:observability
+excluded_tags: []
+review_components:
+  - component:tidb/meta
+  - component:tidb/owner
+  - component:tidb/parser
+  - component:tidb/bootstrap
+  - component:tidb/domain
+  - component:tidb/disttask
+  - component:tidb/dumpling
+  - component:tidb/lightning
+  - component:tidb/import-into
+  - component:tidb/dxf
+  - component:tidb/ddl
+  - component:tidb/global-sort
+participation:
+  max_rules: 10
