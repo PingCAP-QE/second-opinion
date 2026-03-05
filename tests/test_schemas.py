@@ -26,7 +26,7 @@ SCHEMAS = {
         "required": ["findings"],
     },
     "github_comments": {
-        "path": ROOT / "schemas" / "github-comments.schema.json",
+        "path": ROOT / "schemas" / "second-opinion-github-comments.schema.json",
         "required": ["repo_url", "comments"],
     },
 }
@@ -54,8 +54,23 @@ class SchemaTests(unittest.TestCase):
             )
 
     def test_github_comments_item_contract(self):
-        data = self._load(ROOT / "schemas" / "github-comments.schema.json")
+        data = self._load(ROOT / "schemas" / "second-opinion-github-comments.schema.json")
+        self.assertEqual(
+            data["properties"]["repo_url"].get("const"),
+            "https://github.com/PingCAP-QE/second-opinion",
+            "github_comments repo_url must point to the Second Opinion repository",
+        )
         item = data["properties"]["comments"]["items"]
         required = item.get("required", [])
-        for field in ["mode", "body", "source", "severity", "repo_url_footer"]:
+        for field in ["mode", "body", "source", "severity", "attribution_line"]:
             self.assertIn(field, required, f"github_comments item missing required field: {field}")
+        self.assertEqual(
+            set(item["properties"]["mode"]["enum"]),
+            {"inline", "file", "general"},
+            "github_comments mode enum must include inline, file, and general",
+        )
+        self.assertIn(
+            "Second Opinion",
+            item["properties"]["attribution_line"]["pattern"],
+            "github_comments attribution line must include markdown link label",
+        )

@@ -5,12 +5,11 @@ or explicitly confirms posting after review outputs are complete.
 
 ## Output artifact
 
-Write `github_comments.json` in the repository root as the posting payload plan.
+Write `second_opinion_github_comments.json` in the repository root as the posting payload plan.
 
 Each comment entry should include:
-- mode: `inline` or `general`
-- source attribution: `Source: <type>/<id>` in the comment body
-- repo footer: `Second Opinion: <repo_url>` as the final non-empty line
+- mode: `inline`, `file`, or `general`
+- attribution line: `Source: <type>/<id> | [Second Opinion](https://github.com/PingCAP-QE/second-opinion)` as the final non-empty line
 
 ## Language and formatting
 
@@ -20,8 +19,12 @@ Each comment entry should include:
 
 ## Anchoring
 
-- Use `inline` mode only when the target line is diff-resolvable.
-- If anchoring is uncertain or unavailable, use `general` mode.
+- Prefer modes in this order: `inline` > `file` > `general`.
+- Use `inline` mode when the target line is diff-resolvable.
+- Use `file` mode when file context is known but line anchoring is not reliable.
+- Use `general` mode only when neither line nor file anchoring is possible.
+- Do not duplicate one finding across multiple comment modes.
+- When posting inline/file comments, do not add an extra review body comment per finding.
 
 ## Posting safety
 
@@ -29,3 +32,10 @@ Each comment entry should include:
 - For actual posting, use `gh` CLI when available.
 - If `gh` is unavailable or not authenticated, fail the posting step explicitly and stop.
 - Posting review comments requires PR context. Without a PR URL, fail posting explicitly and keep local outputs only.
+
+## gh posting mapping
+
+- `inline` mode: post PR review comment with `path`, `line`, and `side=RIGHT`.
+- `file` mode: post PR review comment with `path` and `subject_type=file` (no line).
+- `general` mode: use PR conversation comment only when neither inline nor file anchoring is possible.
+- If inline posting fails with a line-resolution validation error, retry once as `file` mode before using `general`.

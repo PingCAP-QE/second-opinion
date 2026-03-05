@@ -4,8 +4,7 @@
   "required": ["repo_url", "comments"],
   "properties": {
     "repo_url": {
-      "type": "string",
-      "pattern": "^https?://.+"
+      "const": "https://github.com/PingCAP-QE/second-opinion"
     },
     "comments": {
       "type": "array",
@@ -16,12 +15,12 @@
           "body",
           "source",
           "severity",
-          "repo_url_footer"
+          "attribution_line"
         ],
         "properties": {
           "mode": {
             "type": "string",
-            "enum": ["inline", "general"]
+            "enum": ["inline", "file", "general"]
           },
           "path": {
             "type": "string"
@@ -52,9 +51,9 @@
             "type": "string",
             "enum": ["low", "medium", "high", "critical"]
           },
-          "repo_url_footer": {
+          "attribution_line": {
             "type": "string",
-            "pattern": "^Second Opinion: https?://.+"
+            "pattern": "^Source: (rule|process|policy)/[^|]+ \\| \\[Second Opinion\\]\\(https://github\\.com/PingCAP-QE/second-opinion\\)$"
           }
         },
         "allOf": [
@@ -65,6 +64,15 @@
             },
             "then": {
               "required": ["path", "line"]
+            }
+          },
+          {
+            "if": {
+              "properties": {"mode": {"const": "file"}},
+              "required": ["mode"]
+            },
+            "then": {
+              "required": ["path"]
             }
           }
         ],

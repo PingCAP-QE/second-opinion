@@ -55,7 +55,7 @@ Testing note:
 - CI is authoritative by default; only run local tests when explicitly requested.
 
 If GitHub posting is requested or confirmed, also prepare:
-- `github_comments.json`: comment payload draft following `fragments/github-comment-contract.md`.
+- `second_opinion_github_comments.json`: comment payload draft following `fragments/github-comment-contract.md`.
 
 ## 5) Posting decision gate
 
