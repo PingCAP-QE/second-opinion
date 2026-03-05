@@ -10,6 +10,10 @@ requirements:
   - If `gh` is unavailable or unauthenticated, fail the posting step explicitly and do not auto-fallback to another posting path.
   - Posting review comments requires PR context. If no PR URL is available, fail posting explicitly and keep local outputs only.
   - When drafting or posting GitHub review comments, always use English.
-  - Ensure inline comments can be anchored to diff-resolvable lines; otherwise use a general (non-inline) comment format.
-  - Every GitHub comment must include source attribution as `Source: <type>/<id>`.
-  - Every GitHub comment must end with `Second Opinion: <repo_url>`.
+  - Prefer comment modes in this order: inline, then file, then general.
+  - Ensure inline comments are used when diff-resolvable; use file comments when only file anchoring is possible; use general comments only as a last resort.
+  - File comments must be posted as PR review comments with `subject_type=file`.
+  - If inline comment posting fails due to unresolved line context, retry as file comment before using a general comment.
+  - Do not duplicate one finding across multiple comment modes.
+  - When posting inline/file comments, do not add an extra review body comment per finding.
+  - Every GitHub comment must end with `Source: <type>/<id> | [Second Opinion](https://github.com/PingCAP-QE/second-opinion)` on a single final line.

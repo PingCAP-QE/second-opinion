@@ -14,9 +14,10 @@ class WorkflowContractTests(unittest.TestCase):
             "second_opinion_meta.json",
             "second_opinion.md",
             "second_opinion.json",
-            "github_comments.json",
+            "second_opinion_github_comments.json",
             "ask whether to post only after review outputs are complete",
             "use `gh` CLI; if `gh` is unavailable or unauthenticated, fail posting explicitly.",
+            "prefer inline/file comments over general comments",
             "Chat findings are supplementary; they do not replace required file outputs.",
         ]
         for marker in markers:
@@ -92,13 +93,16 @@ class WorkflowContractTests(unittest.TestCase):
             encoding="utf-8"
         )
         markers = [
-            "Write `github_comments.json` in the repository root",
+            "Write `second_opinion_github_comments.json` in the repository root",
             "Always use English in GitHub comments",
-            "Source: <type>/<id>",
-            "Second Opinion: <repo_url>",
+            "Source: <type>/<id> | [Second Opinion](https://github.com/PingCAP-QE/second-opinion)",
             "Do not add repository shell posting scripts",
             "If `gh` is unavailable or not authenticated, fail the posting step explicitly and stop.",
             "Posting review comments requires PR context.",
+            "Prefer modes in this order: `inline` > `file` > `general`.",
+            "subject_type=file",
+            "retry once as `file` mode before using `general`",
+            "do not add an extra review body comment per finding",
         ]
         for marker in markers:
             self.assertIn(
@@ -117,8 +121,11 @@ class WorkflowContractTests(unittest.TestCase):
             "If `gh` is unavailable or unauthenticated, fail the posting step explicitly",
             "Posting review comments requires PR context.",
             "always use English.",
-            "Source: <type>/<id>",
-            "Second Opinion: <repo_url>",
+            "Source: <type>/<id> | [Second Opinion](https://github.com/PingCAP-QE/second-opinion)",
+            "Prefer comment modes in this order: inline, then file, then general.",
+            "subject_type=file",
+            "retry as file comment before using a general comment",
+            "do not add an extra review body comment per finding",
         ]
         for marker in markers:
             self.assertIn(
