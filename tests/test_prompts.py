@@ -17,6 +17,7 @@ PROMPTS = {
             "selection_rationale",
             "tests/fixtures",
             "persist this JSON as `second_opinion_meta.json`",
+            "fragments/github-comment-contract.md",
         ],
     },
     "reviewer": {
@@ -24,10 +25,15 @@ PROMPTS = {
         "required": [
             "second_opinion.md",
             "second_opinion.json",
+            "github_comments.json",
             "compiled_prompt",
             "source",
             "Do not only print findings in chat",
-            "Write both files to the repository root on disk",
+            "Write required output files to the repository root on disk",
+            "Source: <type>/<id>",
+            "Second Opinion: <repo_url>",
+            "use `gh` CLI for posting",
+            "If no PR URL context exists",
         ],
     },
 }

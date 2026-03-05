@@ -24,4 +24,8 @@ description: "Consolidated PingCAP review expert skill for local code review. Tr
 - Write artifacts to the workspace root:
   - emit `second_opinion_meta.json` with selection rationale after the compiler stage
   - produce `second_opinion.md` and `second_opinion.json` after the review stage
+- If GitHub posting is requested or confirmed, also produce `github_comments.json` in the workspace root.
+- If posting was not requested initially, ask whether to post only after review outputs are complete.
+- GitHub comment posting must use English with `Source: <type>/<id>` attribution and footer `Second Opinion: <repo_url>`.
+- For actual posting, use `gh` CLI; if `gh` is unavailable or unauthenticated, fail posting explicitly.
 - Chat findings are supplementary; they do not replace required file outputs.

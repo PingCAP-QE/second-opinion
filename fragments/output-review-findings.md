@@ -20,6 +20,9 @@ Each finding MUST include:
 - `severity`: one of `low`, `medium`, `high`, `critical`.
 - `message`: a concise, actionable description + fix direction.
 
+For `second_opinion.md`, each finding section MUST include:
+- `Source: <type>/<id>` (for example, `Source: rule/EXAMPLE-RULE-001`).
+
 Severity guidance (map "must fix" to severity):
 - "Must fix: Yes" → `high` or `critical`
 - "Must fix: No" → `low` or `medium`

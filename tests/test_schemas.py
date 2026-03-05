@@ -25,6 +25,10 @@ SCHEMAS = {
         "path": ROOT / "schemas" / "review.schema.json",
         "required": ["findings"],
     },
+    "github_comments": {
+        "path": ROOT / "schemas" / "github-comments.schema.json",
+        "required": ["repo_url", "comments"],
+    },
 }
 
 
@@ -48,3 +52,10 @@ class SchemaTests(unittest.TestCase):
                 data.get("additionalProperties", True),
                 f"{name} schema should set additionalProperties false",
             )
+
+    def test_github_comments_item_contract(self):
+        data = self._load(ROOT / "schemas" / "github-comments.schema.json")
+        item = data["properties"]["comments"]["items"]
+        required = item.get("required", [])
+        for field in ["mode", "body", "source", "severity", "repo_url_footer"]:
+            self.assertIn(field, required, f"github_comments item missing required field: {field}")
