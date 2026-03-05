@@ -14,6 +14,9 @@ class WorkflowContractTests(unittest.TestCase):
             "second_opinion_meta.json",
             "second_opinion.md",
             "second_opinion.json",
+            "github_comments.json",
+            "ask whether to post only after review outputs are complete",
+            "use `gh` CLI; if `gh` is unavailable or unauthenticated, fail posting explicitly.",
             "Chat findings are supplementary; they do not replace required file outputs.",
         ]
         for marker in markers:
@@ -25,6 +28,10 @@ class WorkflowContractTests(unittest.TestCase):
             "Apply shared language contract from `fragments/review-language-contract.md`.",
             "Write these files in the repository root.",
             "Printed chat findings do not satisfy",
+            "If the initial user request explicitly asked for GitHub posting, proceed with posting flow.",
+            "Otherwise ask whether the user wants posting and wait for explicit confirmation.",
+            "For actual posting, use `gh` CLI.",
+            "If `gh` is unavailable or unauthenticated, fail the posting step explicitly and stop.",
         ]
         for marker in markers:
             self.assertIn(marker, content, f"Missing contract marker in pr-review criteria: {marker}")
@@ -37,6 +44,12 @@ class WorkflowContractTests(unittest.TestCase):
             "Apply shared language contract from `fragments/review-language-contract.md`.",
             "Write these files in the repository root.",
             "Printed chat findings do not satisfy",
+            "If the initial user request explicitly asked for GitHub posting, proceed with posting flow.",
+            "Otherwise ask whether the user wants posting and wait for explicit confirmation.",
+            "For actual posting, use `gh` CLI.",
+            "If `gh` is unavailable or unauthenticated, fail the posting step explicitly and stop.",
+            "Posting GitHub review comments requires PR context (`<pr_url>` input mode).",
+            "If the review runs in `<review_remote_url> <review_branch>` mode without a PR URL, fail posting explicitly and keep local outputs only.",
         ]
         for marker in markers:
             self.assertIn(
@@ -69,6 +82,47 @@ class WorkflowContractTests(unittest.TestCase):
         markers = [
             "Write both files in the repository root.",
             "Printed chat findings do not satisfy",
+            "Source: <type>/<id>",
         ]
         for marker in markers:
             self.assertIn(marker, content, f"Missing contract marker in output fragment: {marker}")
+
+    def test_github_comment_fragment_contract(self):
+        content = (ROOT / "fragments" / "github-comment-contract.md").read_text(
+            encoding="utf-8"
+        )
+        markers = [
+            "Write `github_comments.json` in the repository root",
+            "Always use English in GitHub comments",
+            "Source: <type>/<id>",
+            "Second Opinion: <repo_url>",
+            "Do not add repository shell posting scripts",
+            "If `gh` is unavailable or not authenticated, fail the posting step explicitly and stop.",
+            "Posting review comments requires PR context.",
+        ]
+        for marker in markers:
+            self.assertIn(
+                marker,
+                content,
+                f"Missing contract marker in github comment fragment: {marker}",
+            )
+
+    def test_github_side_effects_policy_contract(self):
+        content = (ROOT / "policies" / "github-side-effects.yaml").read_text(
+            encoding="utf-8"
+        )
+        markers = [
+            "produce `second_opinion.md` and `second_opinion.json` first, then ask whether to post.",
+            "For actual GitHub comment posting, use `gh` CLI.",
+            "If `gh` is unavailable or unauthenticated, fail the posting step explicitly",
+            "Posting review comments requires PR context.",
+            "always use English.",
+            "Source: <type>/<id>",
+            "Second Opinion: <repo_url>",
+        ]
+        for marker in markers:
+            self.assertIn(
+                marker,
+                content,
+                f"Missing contract marker in github-side-effects policy: {marker}",
+            )

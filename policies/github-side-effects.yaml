@@ -4,5 +4,12 @@ applies: always
 requirements:
   - Do not perform any GitHub operation with side effects unless the user explicitly instructs you to do so.
   - Side effects include (but are not limited to) posting review comments, submitting reviews, creating issues, labeling, closing/reopening, or editing remote content.
-  - If the user requests suggested comments/messages, draft them locally but do not submit anything.
-  - When drafting GitHub review comments, use English and ensure inline comments can be anchored to diff-resolvable lines; otherwise use a general (non-inline) comment format.
+  - If the initial request does not explicitly ask for posting, produce `second_opinion.md` and `second_opinion.json` first, then ask whether to post.
+  - Do not add repository shell posting scripts for GitHub comments.
+  - For actual GitHub comment posting, use `gh` CLI.
+  - If `gh` is unavailable or unauthenticated, fail the posting step explicitly and do not auto-fallback to another posting path.
+  - Posting review comments requires PR context. If no PR URL is available, fail posting explicitly and keep local outputs only.
+  - When drafting or posting GitHub review comments, always use English.
+  - Ensure inline comments can be anchored to diff-resolvable lines; otherwise use a general (non-inline) comment format.
+  - Every GitHub comment must include source attribution as `Source: <type>/<id>`.
+  - Every GitHub comment must end with `Second Opinion: <repo_url>`.

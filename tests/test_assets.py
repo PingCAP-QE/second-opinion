@@ -33,6 +33,7 @@ REAL_ASSETS = [
     "processes/review-branch/criteria.md",
     "processes/review-branch/prepare_review.sh",
     "fragments/guided-reading-path.md",
+    "fragments/github-comment-contract.md",
     "experts/wjhuang2016/meta.yaml",
     "experts/wjhuang2016/criteria.md",
     "fragments/re-deep-review-checklist.md",

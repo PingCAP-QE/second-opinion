@@ -20,6 +20,7 @@ Responsibilities:
 - Select process workflows using a deterministic algorithm.
 - Insert full process workflows when triggered.
 - Insert policy requirements (always).
+- If the user explicitly asks for GitHub posting, include `fragments/github-comment-contract.md`.
 - Assemble the final review instructions.
 - Preserve provenance for every rule and workflow.
 - Emit selection rationale for process workflows.

@@ -37,7 +37,18 @@ Workflow contract (applies even with the minimum prompt):
   and use that language directly without asking a separate question.
 - Run tagger → compiler → reviewer.
 - Write `second_opinion_meta.json`, `second_opinion.md`, and `second_opinion.json` in the repository root.
+- If GitHub posting is requested or confirmed, write `github_comments.json` in the repository root.
 - Chat output is supplementary and does not replace file outputs.
+
+GitHub comment posting contract:
+- GitHub side effects require explicit user intent.
+- If the initial request did not ask for posting, ask after review outputs are complete.
+- GitHub comments must be in English.
+- Each GitHub comment must include source attribution (`Source: <type>/<id>`).
+- Each GitHub comment must end with `Second Opinion: <repo_url>`.
+- Do not add repository shell posting scripts.
+- For actual posting, use `gh` CLI; if `gh` is unavailable or unauthenticated, fail posting explicitly.
+- Posting review comments requires PR URL context; bare branch review mode is local-output-only.
 
 ## Repository layout
 

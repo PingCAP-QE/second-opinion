@@ -54,7 +54,20 @@ this output contract.
 Testing note:
 - CI is authoritative by default; only run local tests when explicitly requested.
 
-## 5) Stop and wait
+If GitHub posting is requested or confirmed, also prepare:
+- `github_comments.json`: comment payload draft following `fragments/github-comment-contract.md`.
 
-After writing `second_opinion.md` and `second_opinion.json`, stop and wait for explicit user instruction.
+## 5) Posting decision gate
+
+After writing `second_opinion.md` and `second_opinion.json`:
+- If the initial user request explicitly asked for GitHub posting, proceed with posting flow.
+- Otherwise ask whether the user wants posting and wait for explicit confirmation.
+- Posting GitHub review comments requires PR context (`<pr_url>` input mode).
+- If the review runs in `<review_remote_url> <review_branch>` mode without a PR URL, fail posting explicitly and keep local outputs only.
+
+## 6) Side-effect boundary
+
 Never perform GitHub operations with side effects unless explicitly requested.
+Do not add repository shell posting scripts for GitHub comments.
+For actual posting, use `gh` CLI.
+If `gh` is unavailable or unauthenticated, fail the posting step explicitly and stop.

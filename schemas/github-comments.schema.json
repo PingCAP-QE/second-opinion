@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["repo_url", "comments"],
+  "properties": {
+    "repo_url": {
+      "type": "string",
+      "pattern": "^https?://.+"
+    },
+    "comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "mode",
+          "body",
+          "source",
+          "severity",
+          "repo_url_footer"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": ["inline", "general"]
+          },
+          "path": {
+            "type": "string"
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "required": ["type", "id"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["rule", "process", "policy"]
+              },
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "repo_url_footer": {
+            "type": "string",
+            "pattern": "^Second Opinion: https?://.+"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {"mode": {"const": "inline"}},
+              "required": ["mode"]
+            },
+            "then": {
+              "required": ["path", "line"]
+            }
+          }
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
