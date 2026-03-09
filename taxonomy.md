@@ -37,6 +37,13 @@ Controlled vocabulary for tags.
 - component:tiflash/storage
 - component:tiflash/compute
 - component:tiflash/replica
+- component:tiflow/dm-config
+- component:tiflow/dm-master
+- component:tiflow/dm-worker
+- component:tiflow/dm-loader
+- component:tiflow/dm-syncer
+- component:tiflow/dm-relay
+- component:tiflow/dm-openapi
 
 ## risk
 - risk:correctness
