@@ -1,0 +1,30 @@
+id: gmhdbjd
+kind: person
+owner: gmhdbjd
+description: Reviewer focused on TiFlow DM changes with correctness-first review of task configuration, scheduler/worker state transitions, sharding and replication contracts, recovery semantics, and integration-test durability.
+preferred_tags:
+  - lang:go
+  - component:tiflow/dm-config
+  - component:tiflow/dm-master
+  - component:tiflow/dm-worker
+  - component:tiflow/dm-loader
+  - component:tiflow/dm-syncer
+  - component:tiflow/dm-relay
+  - component:tiflow/dm-openapi
+  - risk:correctness
+  - risk:concurrency
+  - risk:compat
+  - risk:ops
+  - theme:error-handling
+  - theme:testing
+excluded_tags: []
+review_components:
+  - component:tiflow/dm-config
+  - component:tiflow/dm-master
+  - component:tiflow/dm-worker
+  - component:tiflow/dm-loader
+  - component:tiflow/dm-syncer
+  - component:tiflow/dm-relay
+  - component:tiflow/dm-openapi
+participation:
+  max_rules: 8

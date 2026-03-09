@@ -37,6 +37,9 @@ REAL_ASSETS = [
     "experts/wjhuang2016/meta.yaml",
     "experts/wjhuang2016/criteria.md",
     "fragments/re-deep-review-checklist.md",
+    "experts/gmhdbjd/meta.yaml",
+    "experts/gmhdbjd/criteria.md",
+    "fragments/tiflow-dm-review-conventions.md",
 ]
 
 
