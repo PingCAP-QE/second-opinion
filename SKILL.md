@@ -5,6 +5,19 @@ description: "Consolidated PingCAP review expert skill for local code review. Tr
 
 # Second Opinion
 
+## Asset Location
+
+The review assets (taxonomy, experts, processes, policies, fragments, prompts)
+live in the skill's installation directory. When running outside the repo itself,
+determine the base path by checking these locations in order and using the first
+one that exists:
+
+1. `~/.claude/skills/second-opinion/` (global Claude Code install)
+2. `.claude/skills/second-opinion/` (project-local Claude Code install)
+3. The current working directory (when invoked inside the repo itself)
+
+Read all referenced assets from that base path throughout this workflow.
+
 ## Workflow
 
 - Infer the review-output language from the user prompt that triggers

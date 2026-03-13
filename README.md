@@ -9,6 +9,8 @@ show formatting and organization; exclude them from real reviews.
 
 ## Install
 
+### Codex CLI
+
 From the Codex CLI prompt, run:
 
 ```bash
@@ -16,6 +18,27 @@ $skill-installer https://github.com/PingCAP-QE/second-opinion
 ```
 
 Restart Codex after installation to load the skill.
+
+### Claude Code
+
+Clone the repository into your Claude skills directory:
+
+```bash
+# Global install (available in all projects)
+git clone https://github.com/PingCAP-QE/second-opinion ~/.claude/skills/second-opinion
+
+# Or project-local install
+git clone https://github.com/PingCAP-QE/second-opinion .claude/skills/second-opinion
+```
+
+No restart required. The skill is immediately available as `/second-opinion` or
+triggered automatically when you ask for a code review second opinion.
+
+To update later:
+
+```bash
+git -C ~/.claude/skills/second-opinion pull
+```
 
 ## Usage
 
@@ -56,6 +79,7 @@ GitHub comment posting contract:
 
 ## Repository layout
 
+- SKILL.md: Skill definition (compatible with both Codex CLI and Claude Code).
 - taxonomy.md: Controlled tag vocabulary used by all prompts.
 - prompts/: Tagger, compiler, and reviewer prompt templates.
 - schemas/: JSON schemas for structured outputs.
@@ -64,7 +88,7 @@ GitHub comment posting contract:
 - policies/: Always-on guardrails (includes sample foo assets).
 - fragments/: Reusable shared guidance (includes sample foo assets).
 - examples/: Golden examples for regression tests (includes sample foo assets).
-- skills/: Codex skills for this repo, including contributor tooling.
+- skills/: Sub-skills for this repo, including contributor tooling.
 
 ## How to contribute
 
