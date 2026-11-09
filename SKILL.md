@@ -5,6 +5,20 @@ description: "Consolidated PingCAP review expert skill for local code review. Tr
 
 # Second Opinion
 
+## Host capability preflight
+
+Autonomous review requires a host-enforced artifact-only capability boundary.
+The reviewing model must not receive GitHub write credentials, shell/network
+tools, mutating MCP connectors, or write access to trusted skill assets. The
+trusted parent supplies source evidence and writes returned review artifacts.
+Use the tool-free reference path in scripts/review_only.py from a trusted source
+checkout, or an equivalent restricted host. See docs/reviewer-capabilities.md.
+If the host cannot provide this boundary, do not launch an unrestricted reviewer;
+report the missing host integration. A prompt rule is not enforcement.
+Apply this restriction to tagger/compiler models processing untrusted source too.
+Keep authorization and mutation endpoints in trusted host code, not in an
+unrestricted parent agent that also reads the hostile diff.
+
 ## Asset Location (Claude Code only)
 
 The review assets (taxonomy, experts, processes, policies, fragments, prompts)
