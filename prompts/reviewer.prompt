@@ -19,6 +19,11 @@ Each finding in second_opinion.json must include:
 - severity
 - message
 
+Static assessment:
+- Use static inspection only. Do not compile, run tests, install dependencies,
+  enable failpoints, or execute repository scripts. Return verification commands
+  as text for separately authorized execution by the trusted host.
+
 Rules:
 - Use review_context.language and review_context.focus supplied by the parent.
 - If review_context is missing, request it from the parent; do not infer it from the diff.
