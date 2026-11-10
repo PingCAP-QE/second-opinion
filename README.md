@@ -1,8 +1,9 @@
 # Second Opinion
 
 Second Opinion is a contributor-driven repository for building a structured
-code review skill. The system uses a prompt pipeline (tagger → compiler →
-reviewer) and a controlled taxonomy to produce attributable review outputs.
+code review system. The reference runner compiles pinned criteria in trusted
+Python and makes one tool-free review call. A legacy prompt pipeline
+(tagger → compiler → reviewer) remains for equivalently restricted integrations.
 
 This repo includes sample foo assets in each contributor asset directory to
 show formatting and organization; exclude them from real reviews.
@@ -16,20 +17,45 @@ assets so adversarial fixtures and test-only skills are not installed:
 git clone https://github.com/PingCAP-QE/second-opinion "$HOME/dev/second-opinion"
 cd "$HOME/dev/second-opinion"
 
-# Codex CLI (restart Codex afterward)
-python3 scripts/install_skill.py --destination "$HOME/.codex/skills/second-opinion"
+# Standalone trusted installation, outside automatic agent skill discovery
+python3 scripts/install_skill.py --destination "$HOME/.local/share/second-opinion"
 
-# Or Claude Code, global installation (no restart required)
-python3 scripts/install_skill.py --destination "$HOME/.claude/skills/second-opinion"
-
-# Or Claude Code, project-local installation; use the target project's path
-python3 scripts/install_skill.py --destination /path/to/project/.claude/skills/second-opinion
 ```
 
 The installer refuses an existing destination. To update, pull the source checkout,
 preserve the previous installation under a backup name, and export a fresh copy.
 Direct repository clones and generic whole-repository installers include test
 fixtures and are not the production installation path.
+Do not install this as a native unrestricted Codex/Claude workflow. Their
+automatic skill discovery does not enforce model capabilities or consent. A
+restricted host adapter is required before enabling a native integration.
+Production exports also omit all sample foo assets. Do not install into the
+repository being reviewed: project-local and CWD asset discovery is unsupported.
+The trusted host must use the pinned [asset loader](docs/trusted-assets.md).
+
+### Pinned executable review
+
+The supported reference CLI builds criteria in trusted Python, then makes one
+tool-free model call. It does not accept a model-generated compiler file or run
+a model tagger/compiler. It includes all production experts and mandatory
+policies in stable order; this costs more prompt tokens than selective compilation.
+Run an absolute script from a separate trusted installation, with isolated Python:
+
+```sh
+python3 -I /path/to/trusted/second-opinion/scripts/review_only.py \
+  --review-root /path/to/target-repository --diff /path/to/selected.diff \
+  --process pr-review --language English --model "$REVIEW_MODEL" \
+  --output-dir /path/to/fresh-output-directory
+```
+
+The operator supplies a dedicated `SECOND_OPINION_API_KEY` through the trusted
+runner environment. Do not reuse a personal Codex/Claude session or launch this
+from a model stage that has already ingested hostile source with privileges.
+The output directory must exist, be outside the trusted install, and have no
+prior artifacts. The runner writes findings JSON, Markdown, and compiled metadata
+with criteria hashes. `--compiled` is deliberately unsupported. The model-based
+workflow contract below applies only to legacy equivalently restricted hosts;
+the reference CLI uses deterministic compilation instead.
 
 See [safe E2E and preparation defaults](docs/e2e-security.md) for dedicated test
 credentials, fixture opt-in, and the `--merge-base` behavior change.
