@@ -43,7 +43,7 @@ Run an absolute script from a separate trusted installation, with isolated Pytho
 
 ```sh
 python3 -I /path/to/trusted/second-opinion/scripts/review_only.py \
-  --review-root /path/to/target-repository --diff /path/to/selected.diff \
+  --review-root /path/to/authorized-input-tree --diff change.diff \
   --process pr-review --language English --model "$REVIEW_MODEL" \
   --output-dir /path/to/fresh-output-directory
 ```
@@ -56,6 +56,16 @@ prior artifacts. The runner writes findings JSON, Markdown, and compiled metadat
 with criteria hashes. `--compiled` is deliberately unsupported. The model-based
 workflow contract below applies only to legacy equivalently restricted hosts;
 the reference CLI uses deterministic compilation instead.
+
+`--review-root` is also the input disclosure boundary. The trusted operator/host
+must select it before ingesting hostile source and include only material approved
+for the chosen provider. Prefer a host-prepared source snapshot without private
+configuration, credentials, or unrelated working files. Both the diff and context
+files must be beneath this tree; relative paths are root-relative, not CWD-relative.
+Stage an externally generated diff into that tree through trusted host code first.
+There is no unrestricted-path override. Symlinks (including in-tree links), `..`,
+hardlinks, and non-regular inputs are rejected before any provider request. See
+[the read-boundary contract](docs/reviewer-capabilities.md#input-disclosure-boundary).
 
 See [safe E2E and preparation defaults](docs/e2e-security.md) for dedicated test
 credentials, fixture opt-in, and the `--merge-base` behavior change.

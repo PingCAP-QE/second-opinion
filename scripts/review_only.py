@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import re
+import stat
 from urllib.error import URLError
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
@@ -48,12 +49,79 @@ def parse_json(text):
     return json.loads(text, object_pairs_hook=_unique_object, parse_constant=_invalid_constant)
 
 
-def read_text(path):
+def _read_trusted_text(path):
+    """Only for fixed installed schema paths, never CLI evidence paths."""
     with Path(path).open("rb") as handle:
         data = handle.read(LIMIT + 1)
     if len(data) > LIMIT:
         raise ValueError("Input exceeds size limit")
     return data.decode("utf-8")
+
+
+class EvidenceReader:
+    """Read explicit inputs beneath one pinned, operator-authorized directory.
+
+    Relative inputs are review-root-relative, not CWD-relative. Absolute inputs
+    must be lexically below the supplied root or its canonical spelling. Never
+    resolve an evidence path: doing so would erase symlink/traversal evidence.
+    """
+
+    def __init__(self, review_root):
+        if ".." in Path(review_root).parts:
+            raise PermissionError("Review root traversal is not allowed")
+        self.supplied_root = Path(os.path.abspath(review_root))
+        self.root = self.supplied_root.resolve(strict=True)
+        trusted = ROOT.resolve(strict=True)
+        if (self.root == trusted or trusted in self.root.parents
+                or self.root in trusted.parents):
+            raise PermissionError("Evidence tree and trusted installation must be separate")
+        self.fd = _open_directory(self.root)
+        self.remaining = LIMIT
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *unused):
+        os.close(self.fd)
+
+    def read_text(self, path):
+        path = Path(path)
+        if ".." in path.parts:
+            raise PermissionError("Evidence traversal is not allowed")
+        if path.is_absolute():
+            for root in (self.supplied_root, self.root):
+                try:
+                    relative = path.relative_to(root)
+                    break
+                except ValueError:
+                    continue
+            else:
+                raise PermissionError("Evidence must be inside the authorized review root")
+        else:
+            relative = path
+        if not relative.parts:
+            raise ValueError("Evidence must name a regular file")
+        parent = os.dup(self.fd)
+        try:
+            for component in relative.parts[:-1]:
+                child = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                dir_fd=parent)
+                os.close(parent)
+                parent = child
+            # O_NONBLOCK avoids hanging on a FIFO before fstat rejects it.
+            fd = os.open(relative.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                         dir_fd=parent)
+            with os.fdopen(fd, "rb") as handle:
+                info = os.fstat(handle.fileno())
+                if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+                    raise PermissionError("Evidence must be a non-hardlinked regular file")
+                data = handle.read(self.remaining + 1)
+        finally:
+            os.close(parent)
+        if len(data) > self.remaining:
+            raise ValueError("Combined evidence exceeds size limit")
+        self.remaining -= len(data)
+        return data.decode("utf-8")
 
 
 def validate(value, schema):
@@ -82,7 +150,7 @@ def validate(value, schema):
 
 def build_request(model, review_root, diff, language, focus=(), evidence=(), process="pr-review"):
     compiled = compile_review(review_root, process)
-    schema = parse_json(read_text(ROOT / "schemas" / "review.schema.json"))
+    schema = parse_json(_read_trusted_text(ROOT / "schemas" / "review.schema.json"))
     schema.pop("$schema", None)
     content = json.dumps({"diff": diff,
                           "language": language, "focus": list(focus), "evidence": list(evidence)},
@@ -142,7 +210,7 @@ def extract_findings(response):
     if len(texts) != 1:
         raise ValueError("Expected one structured review result")
     findings = parse_json(texts[0])
-    validate(findings, parse_json(read_text(ROOT / "schemas" / "review.schema.json")))
+    validate(findings, parse_json(_read_trusted_text(ROOT / "schemas" / "review.schema.json")))
     return findings
 
 
@@ -161,15 +229,8 @@ def render_markdown(review):
     return "\n".join(lines) + "\n"
 
 
-def open_output_directory(directory):
-    """Pin the checked directory before reading source or waiting on a model.
-
-    Walk its resolved absolute path through directory FDs without following
-    symlinks. Later path/symlink replacements cannot redirect artifact writes.
-    """
-    directory = Path(directory).resolve(strict=True)
-    if directory == ROOT or ROOT in directory.parents:
-        raise PermissionError("Review outputs must be outside the trusted installation")
+def _open_directory(directory):
+    """Walk a canonical absolute path without following replaced components."""
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
     fd = os.open(directory.anchor, flags)
     try:
@@ -183,6 +244,14 @@ def open_output_directory(directory):
         raise
 
 
+def open_output_directory(directory):
+    """Pin the checked output directory before reading source or provider I/O."""
+    directory = Path(directory).resolve(strict=True)
+    if directory == ROOT or ROOT in directory.parents:
+        raise PermissionError("Review outputs must be outside the trusted installation")
+    return _open_directory(directory)
+
+
 def check_outputs(directory_fd):
     for name in OUTPUTS:
         try:
@@ -193,7 +262,7 @@ def check_outputs(directory_fd):
 
 
 def write_artifacts(directory_fd, review, metadata):
-    validate(review, parse_json(read_text(ROOT / "schemas" / "review.schema.json")))
+    validate(review, parse_json(_read_trusted_text(ROOT / "schemas" / "review.schema.json")))
     contents = (json.dumps(review, indent=2, ensure_ascii=False) + "\n", render_markdown(review),
                 json.dumps(metadata, indent=2, ensure_ascii=True) + "\n")
     # Model content never supplies output paths. O_EXCL also refuses symlink targets.
@@ -207,9 +276,9 @@ def write_artifacts(directory_fd, review, metadata):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--process", choices=("pr-review", "review-branch"), default="pr-review")
-    parser.add_argument("--review-root", required=True, type=Path, help="Target tree, separate from the trusted installation")
-    parser.add_argument("--diff", required=True, type=Path)
-    parser.add_argument("--context-file", action="append", default=[], type=Path, help="Explicitly selected evidence")
+    parser.add_argument("--review-root", required=True, type=Path, help="Operator-authorized input tree, separate from the trusted installation")
+    parser.add_argument("--diff", required=True, type=Path, help="Regular input file beneath --review-root; relative paths are root-relative")
+    parser.add_argument("--context-file", action="append", default=[], type=Path, help="Explicit evidence beneath --review-root; no symlinks or traversal")
     parser.add_argument("--language", required=True)
     parser.add_argument("--focus", action="append", default=[])
     parser.add_argument("--model", required=True, help="Operator-selected model supporting structured output")
@@ -224,10 +293,11 @@ def main(argv=None):
             raise ValueError("Set SECOND_OPINION_API_KEY in the trusted runner environment")
         # Pin the audit snapshot before reading attacker evidence; verify the
         # request uses the same complete criteria before provider I/O.
-        metadata = compile_review(args.review_root, args.process)
-        payload = build_request(args.model, args.review_root, read_text(args.diff),
-                                args.language, args.focus,
-                                [read_text(path) for path in args.context_file], args.process)
+        with EvidenceReader(args.review_root) as evidence:
+            metadata = compile_review(args.review_root, args.process)
+            payload = build_request(args.model, args.review_root, evidence.read_text(args.diff),
+                                    args.language, args.focus,
+                                    [evidence.read_text(path) for path in args.context_file], args.process)
         if not payload["instructions"].endswith(metadata["compiled_prompt"]):
             raise ValueError("Trusted assets changed while constructing the request")
         result = extract_findings(request_review(payload, api_key))
